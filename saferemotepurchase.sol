@@ -46,7 +46,7 @@ contract Purchase {
     }
 
     modifier commbined(State state_) {
-        if (state != state_ && (msg.sender != buyer || block.timestamp >= timeout + 5 minutes))
+        if (state != state_ && (msg.sender != buyer || block.timestamp <= (timeout + 5 minutes)))
             revert completePurchaseUnavalable();
         _;
     }
@@ -104,7 +104,6 @@ contract Purchase {
 
     function completePurchase ()
         external
-        onlyBuyer
         commbined(State.Locked)
     {
         emit ItemReceived();
